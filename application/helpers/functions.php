@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Users extends CI_Model {
+function is_logged_in(){
+    
 
-    private $table = 'users';
 }
