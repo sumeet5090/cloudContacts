@@ -55,6 +55,14 @@
  */
 	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
 
+	// Debug code
+	if(@$_GET['debug'] == 'died'){
+		function died(){
+			print_r(error_get_last());
+		}
+		register_shutdown_function('died');
+	}
+
 /*
  *---------------------------------------------------------------
  * ERROR REPORTING

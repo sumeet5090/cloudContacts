@@ -1,52 +1,59 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Functions {
+class Functions
+{
 
     private $CI;
-    
-    public function __construct(){
-        $this->CI =& get_instance();      
+
+    public function __construct()
+    {
+        $this->CI = &get_instance();
     }
 
     public function is_logged_in(int $var = NULL)
     {
         // we will check onlyif the user session is set or not
-        if (isset($_SESSION['current_user']) && is_array($_SESSION['current_user']))
-        {
+        if (isset($_SESSION['current_user']) && is_array($_SESSION['current_user'])) {
             $current_user = $_SESSION['current_user'];
 
-            if($var !== NULL && $var > 0)
-            {
-                if($current_user['id'] === $var)
-                {
+            if ($var !== NULL && $var > 0) {
+                if ($current_user['id'] === $var) {
                     return TRUE;
                 }
-            }
-            else
-            {
+            } else {
                 return true;
             }
         }
     }
 
-    public function is_authorised_user($username, $password)
+    public function is_authorised_user($username, $password, $return_id = FALSE)
     {
-        $ret = $this->CI->users_model->select_conditional("`username` = {$username}");
+        $ret = $this->CI->users_model->select_conditional("`email` = '{$username}'");
 
-        if (is_object($ret))
-        {
-            if ($ret['num_rows'] == 1)
-            {
-                $saved_password = $ret[0]->password;
-                return password_verify($password, $saved_password);
-            }
-            else 
-            {
+        if (!empty($ret)) {
+            if ($ret['num_rows'] === 1) {
+                $saved_password = $ret['obj'][0]->password;
+                return ($return_id == TRUE) ? $ret['obj'][0]->id : password_verify($password, $saved_password);
+            } else {
                 return FALSE;
             }
+        } else {
+            return FALSE;
         }
-        else{
+    }
+
+    public function set_session($id){
+        $ret = $this->CI->users_model->select_conditional("`id` = '{$id}'");
+
+        if (!empty($ret)) {
+            if ($ret['num_rows'] === 1) {
+                $_SESSION['current_user']['id'] = $id;
+                $_SESSION['current_user']['email'] = $ret['obj'][0]->email;
+            } else {
+                return FALSE;
+            }
+        } else {
             return FALSE;
         }
     }
