@@ -44,6 +44,7 @@
         </div>
 
         <button type="submit" class="btn btn-primary" id="register" name="register" >Sign Up</button>
+        <?php echo anchor('auth', 'Sign In', 'class="btn btn-primary"'); ?>
     </form>
 </div>
 

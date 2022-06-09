@@ -57,4 +57,11 @@ class Functions
             return FALSE;
         }
     }
+
+    public function unset_session(){
+        
+        unset($_SESSION['current_user']);
+
+        return !isset($_SESSION['current_user']) ? TRUE : FALSE;
+    }
 }

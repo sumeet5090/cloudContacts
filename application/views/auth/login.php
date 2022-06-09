@@ -19,7 +19,8 @@
         </div>
 
         <button type="submit" class="btn btn-primary" id="login" name="login">Sign In</button>
-        <button type="submit" class="btn btn-primary" id="login" name="login">Sign Up</button>
+        <!-- <button type="submit" class="btn btn-primary" id="login" name="login">Sign Up</button> -->
+        <?php echo anchor('auth/register', 'Sign Up', 'class="btn btn-primary"'); ?>
     </form>
 </div>
 
